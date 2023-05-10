@@ -3,60 +3,43 @@ import contacts from './contacts.json'
 import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
+import ContactForm from './ContactForm/ContactForm';
+import css from './App.module.css'
 
 
 export class App extends Component {
 
 state = {
   contacts: contacts,
-  name: '',
-  number: '',
   filter: '',
 }
 
-  
-  
-  
-  
-  
-  getFormValue = event => {
-    const { name, value } = event.currentTarget;
-
-    this.setState({ [name]: value })  
-  }
-
-  
-
-
-
-  hendleSubmit = (event) => {
-    event.preventDefault();
+  addContact = ({ name, number }) => {
+    
+    const { contacts } = this.state;
 
     const newContact = {
-      name: this.state.name,
-      number: this.state.number,
+      name,
+      number,
       id: nanoid(),
     };
 
-    console.log(newContact.name)
+      const filterName = contacts.filter(contact => contact.name.toLowerCase().includes(newContact.name.toLowerCase())).length;
     
-      this.setState((prevState) => ({
-         contacts: [newContact, ...prevState.contacts],
-        name: '',
-        number: '', 
-      }));      
-
+      if(filterName) {
+        return alert(`${newContact.name} is already in contacts`)
+      } else {
+            this.setState((prevState) => ({
+            contacts: [newContact, ...prevState.contacts],
+            }));
+        }
   }
-
-
 
 
 
     changeFilter = event => {
     this.setState({ filter: event.currentTarget.value.toLowerCase() });
   };
-
-
 
 
 
@@ -75,34 +58,10 @@ state = {
   render() {
     const visibleContact = this.state.contacts.filter(contact => contact.name.toLowerCase().includes(this.state.filter.toLowerCase()))
     return (
-      <div>
-        <form onSubmit={this.hendleSubmit}>
-          <label>
-            Name
-            <input
-              type="text"
-              name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              value={this.state.name}
-              onChange={this.getFormValue }
-            />
-          </label>
-          <label>
-            Number
-            <input
-              type="tel"
-              name="number"
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              value={this.state.number}
-              onChange={this.getFormValue }
-            />
-          </label>
-          <button type='submit'> Add Contact </button>
-        </form>
+      <div className={css.phonebookWrap}>
+        <h1 className={css.maineTitle}>Phonebook</h1>
+        <ContactForm onSubmit={this.addContact}/>
+        <h2 className={css.sectionTitle}>Contacts</h2>
         <Filter
           value={this.state.filter}
           onChange={this.changeFilter}
@@ -115,44 +74,3 @@ state = {
     );
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // getFormName = event => {
-  // this.setState({name: event.currentTarget.value})
-  // }
-
-  // getFormTelNumber = event => {
-  //   this.setState({number: event.currentTarget.value})
-  // }
-
-
-
-         
-    // addContact = newContact => {
-  //   this.state.contacts( this.setState(prevState => {
-  //         return {
-  //           contacts: [newContact, ...prevState.contacts],
-  //         };
-  //     }))
-  // };
-
-
-      // if (this.state.name.length === 0) {
-    //      return
-    // }
