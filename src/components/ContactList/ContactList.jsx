@@ -7,8 +7,12 @@ export const ContactList = ({ contacts, onDelete }) => {
         {contacts.map(({ name, number, id }) => {
             return (
               <li key={id} className={css.contactsItem}>
-                <p className={css.contactName}>{name}: <span className={css.contactNumber}>{number}</span></p>
-                <button type='button' className={css.addContactBtn} onClick={() => onDelete(id)}>Delete</button>
+                <div className={css.contactItemWrap}>
+                <p className={css.contactName}>{name}:
+                  <span className={css.contactNumber}>{number}</span>
+                  </p>
+                    <button type='button' className={css.addContactBtn} onClick={() => onDelete(id)}>Delete</button>
+                </div>
               </li>
             )
           })}

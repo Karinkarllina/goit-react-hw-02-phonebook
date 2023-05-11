@@ -6,7 +6,7 @@ export const Filter = ({ value, onChange }) => {
 
      <form className= {css.formFilter}>
         <label className={css.formFilterLabel}>
-            Find contacts by name
+            Find contacts by name:
             <input className={css.formFilterInput}
               type="text"
               name="name"
