@@ -24,7 +24,7 @@ state = {
       id: nanoid(),
     };
 
-      const filterName = contacts.filter(contact => contact.name.toLowerCase().includes(newContact.name.toLowerCase())).length;
+      const filterName = contacts.filter(contact => contact.name.toLowerCase() === newContact.name.toLowerCase()).length;
     
       if(filterName) {
         return alert(`${newContact.name} is already in contacts`)
